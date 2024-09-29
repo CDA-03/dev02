@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React JSX CDN Example</title>
+    <!-- Inclure les CDN de React et ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Le script JSX -->
+    <script type="text/babel">
+        function ParentComponent() {
+            const [sharedState, setSharedState] = React.useState("Initial State");
+
+            return (
+                <div>
+                    <h1>Parent: {sharedState} </h1>
+                    <ChildA sharedState={sharedState} setSharedState={setSharedState} />
+                    <ChildB sharedState={sharedState} setSharedState={setSharedState} />
+                </div>
+            );
+        }
+
+        function ChildA({ sharedState, setSharedState }) {
+
+            return (
+                <div>
+                    <h1>Child A: {sharedState}</h1>
+                    <button onClick={() => setSharedState("Updated from Child (Child = A)")}>
+                        Update State
+                    </button>
+                </div>
+            );
+        }
+
+        function ChildB({ sharedState }) {
+            return <h1>Child B: {sharedState} </h1>;
+        }
+        ReactDOM.render(<ParentComponent />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>

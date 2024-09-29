@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React JSX CDN Example</title>
+    <!-- Inclure les CDN de React et ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Le script JSX -->
+    <script type="text/babel">
+
+        function App() {
+            const [base, setBase] = React.useState("2");
+            const [multiples, setMultiples] = React.useState([]);
+
+            const handleSubmit = (event) => {
+                event.preventDefault();
+                const baseNumber = parseInt(base);
+                const newMultiples = [];
+
+                for (let i = 1; i * baseNumber <= 100; i++) {
+                    newMultiples.push(i * baseNumber);
+                }
+
+                setMultiples(newMultiples);
+            };
+
+            return (
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Choisissez un nombre:
+                            <select value={base} onChange={(e) => setBase(e.target.value)}>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="0">Aucune</option>
+                            </select>
+                        </label>
+                        <button type="submit">Calculer</button>
+                    </form>
+
+                    <h2>Multiples de {base} :</h2>
+                    <ul>
+                        {multiples.map((multiple, index) => (
+                            <li key={index}>{multiple}</li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>

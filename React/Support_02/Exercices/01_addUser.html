@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React JSX CDN Example</title>
+    <!-- Inclure les CDN de React et ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Le script JSX -->
+    <script type="text/babel">
+
+        function App() {
+            const [username, setUsername] = React.useState("");
+            const [users, setUsers] = React.useState([]);
+            const [error, setError] = React.useState("");
+
+            const handleChange = (event) => {
+                setUsername(event.target.value.toUpperCase()); // Forcer la saisie en majuscules
+            };
+
+            const handleSubmit = (event) => {
+                event.preventDefault();
+
+                if (!username) {
+                    setError("Le champ ne doit pas être vide");
+                    return;
+                }
+
+                if (users.includes(username)) {
+                    setError("Cet utilisateur existe déjà");
+                    return;
+                }
+
+                setUsers((prevUsers) => [...prevUsers, username]);
+                setUsername(""); // Réinitialiser le champ
+                setError(""); // Effacer l'erreur
+            };
+
+            return (
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Nom d'utilisateur:
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                        <button type="submit">Ajouter Utilisateur</button>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                    </form>
+
+                    <h2>Liste des Utilisateurs</h2>
+                    <ul>
+                        {users.map((user, index) => (
+                            <li key={index}>{user}</li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>

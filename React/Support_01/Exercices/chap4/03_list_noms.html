@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+        .heading {
+            color: purple;
+        }
+
+        .main {
+            margin: 20px;
+        }
+
+        .letter::first-letter {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const initialState = {
+            populations: [
+                { id: 0, name: 'Alan' },
+                { id: 1, name: 'Albert' },
+                { id: 2, name: 'John' },
+                { id: 3, name: 'Brice' },
+            ],
+            order: 1,
+        };
+
+        const reducer = (state, action) => {
+            switch (action.type) {
+                case 'UPPER_NAME':
+                    return {
+                        ...state,
+                        populations: state.populations.map((person) => ({
+                            ...person,
+                            name: person.name.toUpperCase(),
+                        })),
+                    };
+                case 'LOWER_NAME':
+                    return {
+                        ...state,
+                        populations: state.populations.map((person) => ({
+                            ...person,
+                            name: person.name.toLowerCase(),
+                        })),
+                    };
+                case 'LEN_NAME':
+                    return {
+                        ...state,
+                        populations: state.populations.map((person) => ({
+                            ...person,
+                            len: person.name.length,
+                        })),
+                    };
+                default:
+                    return state;
+            }
+        };
+
+        const App = () => {
+            const [state, dispatch] = React.useReducer(reducer, initialState);
+
+            return (
+                <div>
+                    <h1>Liste de Noms</h1>
+                    <button onClick={() => dispatch({ type: 'UPPER_NAME' })}>Convertir en Majuscules</button>
+                    <button onClick={() => dispatch({ type: 'LOWER_NAME' })}>Convertir en Minuscules</button>
+                    <button onClick={() => dispatch({ type: 'LEN_NAME' })}>Afficher Longueur</button>
+                    <ul>
+                        {state.populations.map((person) => (
+                            <li key={person.id}>
+                                - Nom : {person.name} {person.len ? `- Longueur : ${person.len}` : null}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(root).render(<App />)
+    </script>
+</body>
+
+</html>
